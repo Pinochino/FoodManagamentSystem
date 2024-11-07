@@ -3,29 +3,36 @@ package com.example.Microservice.model;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Builder;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-
+import java.util.Date;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Role")
-@Data
+@Table(name = "Order")
 @NoArgsConstructor
 @AllArgsConstructor
+@Builder
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Role {
+public class Order {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    UUID roleId;
+    UUID orderId;
 
-    @Column(name = "roleName")
-    String roleName;
+    Date date;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "customer_id")
-    Customer customer;
+    Double amount;
+
+    String status;
+
+    @OneToOne(mappedBy = "deliveryId")
+    Delivery delivery;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderItemId")
+    List<OrderItem> orderItems;
+
 }

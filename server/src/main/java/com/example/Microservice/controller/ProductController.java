@@ -2,8 +2,8 @@ package com.example.Microservice.controller;
 
 import com.example.Microservice.dto.ProductRequest;
 import com.example.Microservice.exception.ProductNotFoundException;
-import com.example.Microservice.model.Product;
-import com.example.Microservice.service.product.ProductService;
+import com.example.Microservice.model.Food;
+import com.example.Microservice.service.product.FoodService;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -27,11 +27,11 @@ import java.util.UUID;
 @CrossOrigin
 public class ProductController {
 
-    ProductService productService;
+    FoodService foodService;
 
     @Autowired
-    public ProductController(ProductService productService) {
-        this.productService = productService;
+    public ProductController(FoodService foodService) {
+        this.foodService = foodService;
     }
 
     @Operation
@@ -50,15 +50,15 @@ public class ProductController {
                     = "The resource you were trying to reach is not found")
     })
     @GetMapping(path = "/products")
-    public List<Product> getAllProduct() {
-        return productService.getAllProducts();
+    public List<Food> getAllProduct() {
+        return foodService.getAllProducts();
     }
 
 
     @GetMapping(path = "/product/{id}")
-    public ResponseEntity<Product> getProductById(@PathVariable UUID id) throws Exception {
-        Product product = productService.getProductById(id).orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + id));
-        return ResponseEntity.ok(product);
+    public ResponseEntity<Food> getProductById(@PathVariable UUID id) throws Exception {
+        Food food = foodService.getProductById(id).orElseThrow(() -> new ProductNotFoundException("Product not found with id: " + id));
+        return ResponseEntity.ok(food);
     }
 
     @Operation
@@ -79,9 +79,9 @@ public class ProductController {
     })
     @PostMapping("/product/create")
     @ResponseStatus(HttpStatus.CREATED)
-    public ResponseEntity<Product> createProduct(@Valid  @RequestBody ProductRequest productRequest) {
-        Product product = productService.createProduct(productRequest);
-        return ResponseEntity.status(HttpStatus.CREATED).body(product);
+    public ResponseEntity<Food> createProduct(@Valid  @RequestBody ProductRequest productRequest) {
+        Food food = foodService.createProduct(productRequest);
+        return ResponseEntity.status(HttpStatus.CREATED).body(food);
     }
 
     @Operation(summary = "Update product by id")
@@ -100,9 +100,9 @@ public class ProductController {
                     = "The resource you were trying to reach is not found")
     })
     @PutMapping("/product/{id}")
-    public ResponseEntity<Product> updateProduct(@PathVariable("id") UUID id, @Valid @RequestBody ProductRequest productRequest) throws Exception {
-        Product product = productService.updateProduct(id, productRequest);
-        return  ResponseEntity.ok(product);
+    public ResponseEntity<Food> updateProduct(@PathVariable("id") UUID id, @Valid @RequestBody ProductRequest productRequest) throws Exception {
+        Food food = foodService.updateProduct(id, productRequest);
+        return  ResponseEntity.ok(food);
     }
 
     @Operation
@@ -123,7 +123,7 @@ public class ProductController {
     })
     @DeleteMapping("/product/{id}")
     public ResponseEntity<Void> deleteProduct(@PathVariable("id") UUID id){
-        productService.deleteProduct(id);
+        foodService.deleteProduct(id);
         return ResponseEntity.noContent().build(); // Trả về 204 No Content
     }
 

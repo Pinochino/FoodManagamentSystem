@@ -3,13 +3,13 @@ Microservice
   + Handler Exception
   + Mapper 
 - Spring JPA: 3 tables (Customer, Product, Role)
-  + Pagination product
-  + Search product
-  + CRUD customer & product
-  + Filter product
+  + Pagination food
+  + Search food
+  + CRUD customer & food
+  + Filter food
   + Controller (Swagger)
   + Upload & download file
-  + Add product to cart
+  + Add food to cart
 - Spring Security:
   + Authorization (admin, user)
   + OAuth - JWT

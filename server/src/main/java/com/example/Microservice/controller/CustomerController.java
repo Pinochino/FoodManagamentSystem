@@ -1,10 +1,13 @@
 package com.example.Microservice.controller;
 
+
 import com.example.Microservice.dto.CustomerRequest;
 import com.example.Microservice.exception.CustomerNotFoundException;
 import com.example.Microservice.model.Customer;
 import com.example.Microservice.service.customer.CustomerService;
 import com.example.Microservice.service.file.FileService;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
 import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
@@ -60,8 +63,8 @@ public class CustomerController {
 
 
     @GetMapping("/customer/{id}")
-    public ResponseEntity<Customer> getCustomerById(@PathVariable UUID id) {
-        Customer customer = customerService.getCustomerById(id).orElseThrow(() -> new CustomerNotFoundException(("Not found the customer by id: " + id)));
+    public ResponseEntity<CustomerRequest> getCustomerById(@PathVariable UUID id) {
+        CustomerRequest customer = customerService.getCustomerById(id).orElseThrow(() -> new CustomerNotFoundException(("Not found the customer by id: " + id)));
         return ResponseEntity.ok(customer);
     }
 
@@ -82,30 +85,15 @@ public class CustomerController {
                     = "The resource you were trying to reach is not found")
     })
     @PostMapping(value = "/customer/create", consumes = MediaType.ALL_VALUE)
-    public ResponseEntity<Customer> createCustomer(@RequestPart("file") MultipartFile file, @RequestPart("customer") CustomerRequest customerRequest) {
-//        try {
-//            if (file == null || file.isEmpty()) {
-//                System.out.println("File is empty");
-//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-//            }
-////            String filePath = fileService.saveFile(file);
-////            customerRequest.setAvatar(filePath);
-//            System.out.println("Customer data: " + customerRequest);
-//            System.out.println("File name: " + file.getOriginalFilename());
-//
-//            Customer customer = customerService.createCustomer(customerRequest);
-//            System.out.println(customer);
-//            return ResponseEntity.status(HttpStatus.CREATED).body(customer);
-//        } catch (IOException e) {
-//            System.out.println(e);
-//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-//        } catch (IllegalArgumentException | SecurityException e) {
-//            System.out.println(e);
-//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-//        }
-        return null;
+    public ResponseEntity<CustomerRequest> createCustomer(@RequestPart("file") MultipartFile file, @RequestPart("customerRequest") String customerRequest) throws IOException {
+        CustomerRequest customerRequest1 = convertToCustomerRequest(customerRequest);
+        return new ResponseEntity<>(customerService.createCustomer(customerRequest1, file), HttpStatus.CREATED);
     }
 
+    private CustomerRequest convertToCustomerRequest(String customerRequestObj) throws JsonProcessingException {
+        ObjectMapper objectMapper = new ObjectMapper();
+        return objectMapper.readValue(customerRequestObj, CustomerRequest.class);
+    }
 
     @Operation(summary = "Update customer by id")
     @ApiResponses(value = {
@@ -147,7 +135,7 @@ public class CustomerController {
     @DeleteMapping("/customer/{id}")
     public ResponseEntity<Void> deleteCustomer(@PathVariable UUID id) {
         customerService.deleteCustomer(id);
-        return ResponseEntity.noContent().build();
+        return ResponseEntity.ok().build();
     }
 
 

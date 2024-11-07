@@ -2,16 +2,10 @@ package com.example.Microservice.model;
 
 import jakarta.persistence.*;
 import jakarta.validation.constraints.Email;
-import jakarta.validation.constraints.Min;
-import jakarta.validation.constraints.NotNull;
-import jakarta.validation.constraints.Size;
-import lombok.AccessLevel;
-import lombok.Getter;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.FieldDefaults;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
-
 
 import java.util.Date;
 import java.util.List;
@@ -20,72 +14,73 @@ import java.util.UUID;
 @Entity
 @Table(name = "Customer")
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@Builder
+@AllArgsConstructor
+@Data
+@NoArgsConstructor
 public class Customer {
 
     @Id
-    @Getter
-    @Setter
     @GeneratedValue(strategy = GenerationType.AUTO)
     UUID customerId;
 
 
     @Column(name = "username")
-    @Getter
-    @Setter
     String username;
 
-    @Getter
-    @Setter
-    @Email(message = "Customer's email is not valid")
+
+    @Email()
     @Column(name = "email")
     String email;
 
 
-    @NotNull(message = "Customer's password is required")
+
     @Column(name = "password")
     String password;
 
-    @Getter
     @Column(name = "avatar")
     String avatar;
 
-    @Getter
-    @Setter
+    String avatarUrl;
+
     @CreatedDate
     @Column(name = "created_at")
     Date created_at;
 
-    @Getter
-    @Setter
+
     @LastModifiedDate
     @Column(name = "updated_at")
     Date updated_at;
 
-    @Getter
-    @Setter
     @Column(name = "is_deleted")
     Boolean isDeleted;
 
-    @Getter
-    @Setter
+    // Method to set creation date only once, at the time of creation
+    @PrePersist
+    protected void onCreate() {
+        created_at = new Date(); // Set created_at only once
+    }
+
+    // Method to update the modification date each time the entity is updated
+    @PreUpdate
+    protected void onUpdate() {
+        updated_at = new Date(); // Update updated_at with the current date/time on each update
+    }
+
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
     List<Role> roleList;
 
-    @Getter
-    @Setter
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "customer")
-    List<Product> productList;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "cartId")
+    List<Cart> carts;
+
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "notificationId")
+    List<Notification> notifications;
 
 
-    public void setPassword(String password) {
-        this.password = password;
-    }
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "feedbackId")
+    List<Feedback> feedbacks;
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setAvatar(String avatar) {
-        this.avatar = avatar;
-    }
+    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId")
+    List<Order> orders;
 }

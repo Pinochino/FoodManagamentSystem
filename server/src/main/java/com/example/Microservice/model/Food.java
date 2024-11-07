@@ -7,15 +7,16 @@ import lombok.experimental.FieldDefaults;
 
 
 import java.math.BigDecimal;
+import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Product")
+@Table(name = "Food")
 @Data
 @AllArgsConstructor
 @NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Product {
+public class Food {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
@@ -36,4 +37,12 @@ public class Product {
     @ManyToOne(optional = false)
     @JoinColumn(name = "customer_id")
     Customer customer;
+
+    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    List<Feedback> feedbacks;
+
+    @ManyToOne
+    @JoinColumn(name = "categoryId")
+    Category category;
+
 }

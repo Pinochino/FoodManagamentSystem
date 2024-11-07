@@ -7,25 +7,28 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.FieldDefaults;
 
-
+import java.util.Date;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Role")
+@Table(name = "Food")
 @Data
-@NoArgsConstructor
 @AllArgsConstructor
+@NoArgsConstructor
 @FieldDefaults(level = AccessLevel.PRIVATE)
-public class Role {
+public class Delivery {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    UUID roleId;
+    UUID deliveryId;
 
-    @Column(name = "roleName")
-    String roleName;
+    Date date;
 
-    @ManyToOne(optional = false)
-    @JoinColumn(name = "customer_id")
-    Customer customer;
+    String status;
+
+    String address;
+
+    @OneToOne(mappedBy = "delivery")
+    Order order;
+
 }
