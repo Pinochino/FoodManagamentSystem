@@ -20,7 +20,7 @@ public class Feedback {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    UUID reviewId;
+    UUID feedbackId;
 
     Float ratings;
 
@@ -29,7 +29,7 @@ public class Feedback {
     Date feedbackDate;
 
     @ManyToOne
-    @JoinColumn(name = "customerid")
+    @JoinColumn(name = "customerId")
     Customer customer;
 
 

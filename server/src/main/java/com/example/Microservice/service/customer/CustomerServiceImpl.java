@@ -14,7 +14,10 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
 import java.io.IOException;
+import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.util.Date;
 import java.util.List;
 import java.util.Optional;
@@ -105,18 +108,61 @@ public class CustomerServiceImpl implements CustomerService{
         return customerRequest;
     }
 
-
     @Override
-    public Customer updateCustomer(UUID id, CustomerRequest customerRequest) {
+    public CustomerRequest updateCustomer(UUID id, CustomerRequest customerRequest, MultipartFile file) throws IOException {
+        // Tìm khách hàng theo ID
+        Customer customer = customerRepository.findById(id)
+                .orElseThrow(() -> new CustomerNotFoundException("Customer not found with ID: " + id));
 
-        return null;
+        // Cập nhật avatar nếu có file mới
+        String fileName = customer.getAvatar();
+        if (file != null) {
+            // Xóa file cũ nếu có
+            Files.deleteIfExists(Paths.get(path + File.separator + fileName));
+            // Tải file mới lên
+            fileName = fileService.uploadFile(path, file);
+        }
+
+        // Cập nhật các thông tin từ customerRequest vào đối tượng customer
+        customer.setUsername(customerRequest.getUsername());
+        customer.setEmail(customerRequest.getEmail());
+        customer.setCreated_at(customerRequest.getCreated_at());
+        customer.setUpdated_at(customerRequest.getUpdated_at());
+        customer.setIsDeleted(customerRequest.getIsDeleted());
+        customer.setPassword(customerRequest.getPassword());
+        customer.setAvatar(fileName);
+
+        // Lưu khách hàng đã cập nhật
+        Customer updatedCustomer = customerRepository.save(customer);
+
+        // Tạo đường dẫn URL cho avatar mới
+        String avatarUrl = baseUrl + "/file/" + fileName;
+
+        // Trả về CustomerRequest mới với thông tin đã cập nhật
+        CustomerRequest updatedCustomerRequest = CustomerRequest.builder()
+                .password(customerRequest.getPassword())
+                .username(customerRequest.getUsername())
+                .email(customerRequest.getEmail())
+                .isDeleted(customerRequest.getIsDeleted())
+                .updated_at(customerRequest.getUpdated_at())
+                .created_at(customerRequest.getCreated_at())
+                .avatarUrl(avatarUrl)
+                .build();
+
+        return updatedCustomerRequest;
     }
 
 
 
     @Override
-    public void deleteCustomer(UUID id) {
+    public String deleteCustomer(UUID id) throws IOException {
+        Customer customer = customerRepository.findById(id).orElseThrow(() -> new RuntimeException("Customer"));
+        id = customer.getCustomerId();
+
+        Files.deleteIfExists(Paths.get(path + File.separator + customer.getAvatar()));
         customerRepository.deleteById(id);
+
+        return "Customer delete with id: " + id;
     }
 
     @Override

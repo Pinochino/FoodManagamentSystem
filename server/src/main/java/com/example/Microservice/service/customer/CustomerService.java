@@ -19,9 +19,9 @@ public interface CustomerService {
 
     CustomerRequest createCustomer(CustomerRequest customerRequest, MultipartFile file) throws IOException;
 
-    Customer updateCustomer(UUID id, CustomerRequest customerRequest) throws Exception;
+    CustomerRequest updateCustomer(UUID id, CustomerRequest customerRequest, MultipartFile file) throws IOException;
 
-    void deleteCustomer(UUID id);
+    String deleteCustomer(UUID id) throws IOException;
 
     boolean login(String email, String password );
 }

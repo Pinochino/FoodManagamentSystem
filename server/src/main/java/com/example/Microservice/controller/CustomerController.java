@@ -111,8 +111,10 @@ public class CustomerController {
                     = "The resource you were trying to reach is not found")
     })
     @PutMapping("/customer/{id}")
-    public ResponseEntity<Customer> updateCustomer(@PathVariable UUID id, @RequestBody CustomerRequest customerRequest) throws Exception {
-        Customer customer = customerService.updateCustomer(id, customerRequest);
+    public ResponseEntity<CustomerRequest> updateCustomer(@PathVariable UUID id, @RequestPart("customerRequest") String customerObj, @RequestPart MultipartFile file) throws Exception {
+        if (file.isEmpty()) file = null;
+        CustomerRequest customerRequest = convertToCustomerRequest(customerObj);
+        CustomerRequest customer = customerService.updateCustomer(id, customerRequest, file);
         return ResponseEntity.ok(customer);
     }
 
@@ -133,9 +135,8 @@ public class CustomerController {
                     = "The resource you were trying to reach is not found")
     })
     @DeleteMapping("/customer/{id}")
-    public ResponseEntity<Void> deleteCustomer(@PathVariable UUID id) {
-        customerService.deleteCustomer(id);
-        return ResponseEntity.ok().build();
+    public ResponseEntity<String> deleteCustomer(@PathVariable UUID id) throws IOException {
+        return ResponseEntity.ok(customerService.deleteCustomer(id));
     }
 
 

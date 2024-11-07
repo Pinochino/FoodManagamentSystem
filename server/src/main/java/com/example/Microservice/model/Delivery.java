@@ -28,7 +28,6 @@ public class Delivery {
 
     String address;
 
-    @OneToOne(mappedBy = "delivery")
+    @OneToOne(mappedBy = "delivery")  // mappedBy refers to the field in Order class
     Order order;
-
 }

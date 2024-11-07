@@ -22,8 +22,11 @@ public class OrderItem {
 
     Integer quantity;
 
-    @OneToOne(mappedBy = "productId")
+    @OneToOne
+    @JoinColumn(name = "productId")  // Foreign key to Food
     Food food;
 
-
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "cartId")
+    Cart cart;
 }

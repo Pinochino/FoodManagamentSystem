@@ -12,7 +12,7 @@ import java.util.List;
 import java.util.UUID;
 
 @Entity
-@Table(name = "Order")
+@Table(name = "\"order\"")
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -29,10 +29,14 @@ public class Order {
 
     String status;
 
-    @OneToOne(mappedBy = "deliveryId")
+    @OneToOne
+    @JoinColumn(name = "delivery_id")  // This adds a foreign key reference to Delivery table
     Delivery delivery;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderItemId")
     List<OrderItem> orderItems;
+
+    @OneToOne(mappedBy = "order")
+    Payment payment;
 
 }

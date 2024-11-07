@@ -45,4 +45,6 @@ public class Food {
     @JoinColumn(name = "categoryId")
     Category category;
 
+    @OneToOne(mappedBy = "food")  // Correct mappedBy
+    OrderItem orderItem;
 }

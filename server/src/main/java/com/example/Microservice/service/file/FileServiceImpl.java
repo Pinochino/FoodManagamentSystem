@@ -15,6 +15,10 @@ public class FileServiceImpl implements FileService{
 
     @Override
     public String uploadFile(String path, MultipartFile file) throws IOException {
+
+        if (Files.exists(Paths.get(path + File.separator + file.getOriginalFilename()))){
+            throw new RuntimeException("File already existed! Please enter another file name! ");
+        }
         // get name of the file
         String fileName = file.getOriginalFilename();
 
