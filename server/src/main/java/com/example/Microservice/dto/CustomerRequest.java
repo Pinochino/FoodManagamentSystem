@@ -30,6 +30,8 @@ public class CustomerRequest {
 
     String avatar;
 
+    String avatarUrl;
+
     @Getter
     @Setter
     Date created_at;
@@ -62,5 +64,13 @@ public class CustomerRequest {
 
     public void setAvatar(String avatar) {
         this.avatar = avatar;
+    }
+
+    public String getAvatarUrl() {
+        return avatarUrl;
+    }
+
+    public void setAvatarUrl(String avatarUrl) {
+        this.avatarUrl = avatarUrl;
     }
 }

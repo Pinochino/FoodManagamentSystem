@@ -3,36 +3,39 @@ package com.example.Microservice.service.file;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.io.File;
-import java.io.IOException;
+import java.io.*;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.nio.file.StandardCopyOption;
 import java.util.Objects;
 
 @Service
 public class FileServiceImpl implements FileService{
 
-    String STORAGE_DIRECTORY = "D:\\Microservice\\Microservice\\src\\main\\java\\com\\example\\Microservice\\uploads";
+
     @Override
-    public String saveFile(MultipartFile fileToSave) throws IOException {
-        File directory = new File(STORAGE_DIRECTORY);
-        if (!directory.exists()) {
-            if (!directory.mkdirs()) {
-                throw new IOException("Failed to create directory: " + STORAGE_DIRECTORY);
-            }
+    public String uploadFile(String path, MultipartFile file) throws IOException {
+        // get name of the file
+        String fileName = file.getOriginalFilename();
+
+        // to get the file path
+        String filePath = path + File.separator + fileName;
+
+        // create file object
+        File f = new File(path);
+        if (!f.exists()){
+            f.mkdir();
         }
 
-        if (fileToSave == null || fileToSave.isEmpty()) {
-            throw new IllegalArgumentException("No file provided");
-        }
-        var targetFile = new File(STORAGE_DIRECTORY + File.separator + fileToSave.getOriginalFilename());
-        if(!Objects.equals(targetFile.getParent(), STORAGE_DIRECTORY)){
-            throw new SecurityException("Can't save file to " + targetFile.getParent());
-        }
-        Files.copy(fileToSave.getInputStream(), targetFile.toPath(), StandardCopyOption.REPLACE_EXISTING);
-        return targetFile.getAbsolutePath();
+        // copy the file or upload file to the path
+        Files.copy(file.getInputStream(), Paths.get(filePath), StandardCopyOption.REPLACE_EXISTING);
+
+        return fileName;
     }
 
-
-
+    @Override
+    public InputStream getResourceFile(String path, String fileName) throws FileNotFoundException {
+        String filePath = path + File.separator + fileName;
+        return new FileInputStream(filePath);
+    }
 }

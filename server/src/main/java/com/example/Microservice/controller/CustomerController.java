@@ -83,26 +83,27 @@ public class CustomerController {
     })
     @PostMapping(value = "/customer/create", consumes = MediaType.ALL_VALUE)
     public ResponseEntity<Customer> createCustomer(@RequestPart("file") MultipartFile file, @RequestPart("customer") CustomerRequest customerRequest) {
-        try {
-            if (file == null || file.isEmpty()) {
-                System.out.println("File is empty");
-                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-            }
-            String filePath = fileService.saveFile(file);
-            customerRequest.setAvatar(filePath);
-            System.out.println("Customer data: " + customerRequest);
-            System.out.println("File name: " + file.getOriginalFilename());
-
-            Customer customer = customerService.createCustomer(customerRequest);
-            System.out.println(customer);
-            return ResponseEntity.status(HttpStatus.CREATED).body(customer);
-        } catch (IOException e) {
-            System.out.println(e);
-            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
-        } catch (IllegalArgumentException | SecurityException e) {
-            System.out.println(e);
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
-        }
+//        try {
+//            if (file == null || file.isEmpty()) {
+//                System.out.println("File is empty");
+//                return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+//            }
+////            String filePath = fileService.saveFile(file);
+////            customerRequest.setAvatar(filePath);
+//            System.out.println("Customer data: " + customerRequest);
+//            System.out.println("File name: " + file.getOriginalFilename());
+//
+//            Customer customer = customerService.createCustomer(customerRequest);
+//            System.out.println(customer);
+//            return ResponseEntity.status(HttpStatus.CREATED).body(customer);
+//        } catch (IOException e) {
+//            System.out.println(e);
+//            return ResponseEntity.status(HttpStatus.INTERNAL_SERVER_ERROR).body(null);
+//        } catch (IllegalArgumentException | SecurityException e) {
+//            System.out.println(e);
+//            return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(null);
+//        }
+        return null;
     }
 
 

@@ -6,15 +6,16 @@ import lombok.experimental.FieldDefaults;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.io.InputStream;
 
 @Service
-@FieldDefaults(level = AccessLevel.PRIVATE)
 public interface FileService {
 
 
-    public String saveFile(MultipartFile fileToSave) throws IOException;
+    public String uploadFile(String path, MultipartFile file) throws IOException;
 
-
+    InputStream getResourceFile(String path, String fileName) throws FileNotFoundException;
 
 }
