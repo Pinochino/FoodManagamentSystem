@@ -1,6 +1,6 @@
 package com.example.Microservice.service.customer;
 
-import com.example.Microservice.dto.CustomerRequest;
+import com.example.Microservice.dto.request.CustomerRequest;
 import com.example.Microservice.model.Customer;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -21,7 +21,7 @@ public interface CustomerService {
 
     CustomerRequest updateCustomer(UUID id, CustomerRequest customerRequest, MultipartFile file) throws IOException;
 
-    String deleteCustomer(UUID id) throws IOException;
+    String deleteCustomerById(UUID id) throws IOException;
 
     boolean login(String email, String password );
 }

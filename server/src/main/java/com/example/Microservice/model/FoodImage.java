@@ -24,6 +24,6 @@ public class FoodImage {
     String description;
 
     @ManyToOne(cascade = CascadeType.ALL)
-    @JoinColumn(name = "productId")
+    @JoinColumn(name = "foodId")
     Food food;
 }

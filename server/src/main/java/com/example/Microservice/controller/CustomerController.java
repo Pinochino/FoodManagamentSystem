@@ -1,8 +1,8 @@
 package com.example.Microservice.controller;
 
 
-import com.example.Microservice.dto.CustomerRequest;
-import com.example.Microservice.exception.CustomerNotFoundException;
+import com.example.Microservice.dto.request.CustomerRequest;
+import com.example.Microservice.exceptions.customer.CustomerNotFoundException;
 import com.example.Microservice.model.Customer;
 import com.example.Microservice.service.customer.CustomerService;
 import com.example.Microservice.service.file.FileService;
@@ -136,7 +136,7 @@ public class CustomerController {
     })
     @DeleteMapping("/customer/{id}")
     public ResponseEntity<String> deleteCustomer(@PathVariable UUID id) throws IOException {
-        return ResponseEntity.ok(customerService.deleteCustomer(id));
+        return ResponseEntity.ok(customerService.deleteCustomerById(id));
     }
 
 

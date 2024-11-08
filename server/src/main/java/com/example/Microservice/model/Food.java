@@ -20,10 +20,10 @@ public class Food {
 
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
-    UUID productId;
+    UUID foodId;
 
-    @Column(name = "productName")
-    String productName;
+    @Column(name = "foodName")
+    String foodName;
 
     @Column(name = "description")
     String description;
@@ -31,20 +31,15 @@ public class Food {
     @Column(name = "price")
     BigDecimal price;
 
-    @Column(name = "image")
-    String image;
+
+    @OneToMany(mappedBy = "food", cascade = CascadeType.ALL, orphanRemoval = true)
+    List<FoodImage> images;
 
     @ManyToOne(optional = false)
     @JoinColumn(name = "customer_id")
     Customer customer;
 
-    @OneToMany(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
-    List<Feedback> feedbacks;
-
-    @ManyToOne
-    @JoinColumn(name = "categoryId")
+    @ManyToOne(cascade = CascadeType.ALL)
+    @JoinColumn(name = "category_id")
     Category category;
-
-    @OneToOne(mappedBy = "food")  // Correct mappedBy
-    OrderItem orderItem;
 }

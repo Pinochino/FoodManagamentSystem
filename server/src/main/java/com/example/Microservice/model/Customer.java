@@ -74,13 +74,4 @@ public class Customer {
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "cartId")
     List<Cart> carts;
 
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "notificationId")
-    List<Notification> notifications;
-
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "feedbackId")
-    List<Feedback> feedbacks;
-
-    @OneToMany(cascade = CascadeType.ALL, mappedBy = "orderId")
-    List<Order> orders;
 }

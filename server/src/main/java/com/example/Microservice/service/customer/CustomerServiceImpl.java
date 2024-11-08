@@ -1,7 +1,7 @@
 package com.example.Microservice.service.customer;
 
-import com.example.Microservice.dto.CustomerRequest;
-import com.example.Microservice.exception.CustomerNotFoundException;
+import com.example.Microservice.dto.request.CustomerRequest;
+import com.example.Microservice.exceptions.customer.CustomerNotFoundException;
 import com.example.Microservice.model.Customer;
 import com.example.Microservice.repository.CustomerRepository;
 import com.example.Microservice.service.file.FileService;
@@ -16,6 +16,7 @@ import org.springframework.web.multipart.MultipartFile;
 
 import java.io.File;
 import java.io.IOException;
+import java.nio.file.FileAlreadyExistsException;
 import java.nio.file.Files;
 import java.nio.file.Paths;
 import java.util.Date;
@@ -77,6 +78,10 @@ public class CustomerServiceImpl implements CustomerService{
 
     @Override
     public CustomerRequest createCustomer(CustomerRequest customerRequest, MultipartFile file) throws IOException {
+        if (Files.exists(Paths.get(path + File.separator + file.getOriginalFilename()))){
+            throw new FileAlreadyExistsException("File already existed! Please enter another file name");
+        }
+
         // 1. Upload the file
         String uploadedFileName = fileService.uploadFile(path, file);
 
@@ -155,7 +160,7 @@ public class CustomerServiceImpl implements CustomerService{
 
 
     @Override
-    public String deleteCustomer(UUID id) throws IOException {
+    public String deleteCustomerById(UUID id) throws IOException {
         Customer customer = customerRepository.findById(id).orElseThrow(() -> new RuntimeException("Customer"));
         id = customer.getCustomerId();
 

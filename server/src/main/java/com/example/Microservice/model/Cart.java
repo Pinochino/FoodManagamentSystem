@@ -26,9 +26,6 @@ public class Cart {
 
     Double amount;
 
-    @OneToMany(mappedBy = "cart", cascade = CascadeType.ALL)
-    List<OrderItem> orderItems;
-
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "customerId")
     Customer customer;

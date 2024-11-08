@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.util.List;
 import java.util.UUID;
 
 @Entity
@@ -20,5 +21,8 @@ public class Category {
     UUID categoryId;
 
     String name;
+
+    @OneToMany(mappedBy = "category")
+    List<Food> foods;
 
 }

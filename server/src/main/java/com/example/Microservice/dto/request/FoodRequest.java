@@ -1,4 +1,4 @@
-package com.example.Microservice.dto;
+package com.example.Microservice.dto.request;
 
 import lombok.*;
 import lombok.experimental.FieldDefaults;
@@ -10,7 +10,7 @@ import java.util.UUID;
 @FieldDefaults(level = AccessLevel.PRIVATE)
 @NoArgsConstructor
 @AllArgsConstructor
-public class ProductRequest {
+public class FoodRequest {
 
     UUID productId;
 

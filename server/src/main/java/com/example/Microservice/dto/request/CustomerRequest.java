@@ -1,4 +1,4 @@
-package com.example.Microservice.dto;
+package com.example.Microservice.dto.request;
 
 import com.example.Microservice.model.Food;
 import com.example.Microservice.model.Role;
