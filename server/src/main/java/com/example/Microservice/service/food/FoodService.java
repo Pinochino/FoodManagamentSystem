@@ -14,7 +14,7 @@ public interface FoodService {
         List<Food> getAllFoods();
 
         Optional<Food> getFoodById(UUID id) throws Exception;
-        Food createFood(FoodRequest foodRequest);
+        Food addFood(FoodRequest foodRequest);
 
         Food updateFood(UUID id, FoodRequest foodRequest) throws Exception;
 
@@ -22,13 +22,12 @@ public interface FoodService {
 
         List<Food> getFoodsByCategory(String category);
 
-        List<Food> getFoodsByName(String foodName);
+        Food getFoodByName(String foodName);
 
         List<Food> getFoodsByBrand(String brand);
 
         List<Food> getFoodsByBrandAndCategory(String brand, String category);
 
-        List<Food> getFoodsByNameAndCategory(String foodName, String category);
 
         Long countFoodsByBrandAndName(String brand, String name);
 }

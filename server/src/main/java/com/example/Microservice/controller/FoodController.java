@@ -80,7 +80,7 @@ public class FoodController {
     @PostMapping("/product/create")
     @ResponseStatus(HttpStatus.CREATED)
     public ResponseEntity<Food> createFood(@Valid  @RequestBody FoodRequest foodRequest) {
-        Food food = foodService.createFood(foodRequest);
+        Food food = foodService.addFood(foodRequest);
         return ResponseEntity.status(HttpStatus.CREATED).body(food);
     }
 

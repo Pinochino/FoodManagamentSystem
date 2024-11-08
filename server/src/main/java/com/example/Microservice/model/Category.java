@@ -25,4 +25,6 @@ public class Category {
     @OneToMany(mappedBy = "category")
     List<Food> foods;
 
+    public Category(String name) {
+    }
 }
