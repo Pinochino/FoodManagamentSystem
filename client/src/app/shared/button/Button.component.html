@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Document</title>
+</head>
+
+<body>
+    <!-- Sử dụng thẻ <a> nếu có `href`, ngược lại sử dụng <button> -->
+    <a *ngIf="options.href" [href]="options.href" [ngClass]="{
+        'rounded': options.rounded,
+        'small': options.small,
+        'medium': options.medium,
+        'larger': options.larger,
+        'text': options.text
+      }" [ngStyle]="options.style" (click)="handleClick()">
+        <span *ngIf="options.leftIcon" class="icon-left">
+            <img [src]="options.icon" alt="left icon" />
+        </span>
+        {{ options.label || 'Button' }}
+        <span *ngIf="options.rightIcon" class="icon-right">
+            <img [src]="options.icon" alt="right icon" />
+        </span>
+    </a>
+
+    <button *ngIf="!options.href" [disabled]="options.disabled" [ngClass]="{
+        'rounded': options.rounded,
+        'small': options.small,
+        'medium': options.medium,
+        'larger': options.larger,
+        'text': options.text
+      }" [ngStyle]="options.style" (click)="handleClick()">
+        <span *ngIf="options.leftIcon" class="icon-left">
+            <img [src]="options.icon" alt="left icon" />
+        </span>
+        {{ options.label || 'Button' }}
+        <span *ngIf="options.rightIcon" class="icon-right">
+            <img [src]="options.icon" alt="right icon" />
+        </span>
+    </button>
+</body>
+
+</html>
