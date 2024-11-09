@@ -29,6 +29,7 @@ import java.util.UUID;
 @RequestMapping("/api")
 @Data
 @FieldDefaults(level = AccessLevel.PRIVATE)
+@CrossOrigin("http://localhost:4200")
 public class CustomerController {
 
     CustomerService customerService;

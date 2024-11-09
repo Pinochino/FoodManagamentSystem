@@ -13,7 +13,7 @@ public interface FoodService {
 
         List<Food> getAllFoods();
 
-        Optional<Food> getFoodById(UUID id) throws Exception;
+        Food getFoodById(UUID id) throws Exception;
         Food addFood(FoodRequest foodRequest);
 
         Food updateFood(UUID id, FoodRequest foodRequest) throws Exception;

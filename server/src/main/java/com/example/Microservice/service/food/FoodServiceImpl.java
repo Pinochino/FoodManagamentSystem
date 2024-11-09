@@ -38,8 +38,8 @@ public class FoodServiceImpl implements FoodService {
     }
 
     @Override
-    public Optional<Food> getFoodById(UUID id) {
-        return Optional.ofNullable(foodRepository.findById(id).orElseThrow(() -> new FoodNotFoundException("Can't not find food by id: " + id)));
+    public Food getFoodById(UUID id) {
+        return foodRepository.findById(id).orElseThrow(() -> new FoodNotFoundException("Can't not find food by id: " + id));
     }
 
     @Override

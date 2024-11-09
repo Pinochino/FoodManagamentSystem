@@ -24,7 +24,7 @@ import java.util.UUID;
 @Data
 @RequestMapping("/api")
 @FieldDefaults(level = AccessLevel.PRIVATE)
-@CrossOrigin
+@CrossOrigin("http://localhost:4200")
 public class FoodController {
 
     FoodService foodService;
@@ -57,7 +57,7 @@ public class FoodController {
 
     @GetMapping(path = "/product/{id}")
     public ResponseEntity<Food> getFoodById(@PathVariable UUID id) throws Exception {
-        Food food = foodService.getFoodById(id).orElseThrow(() -> new FoodNotFoundException("Food not found with id: " + id));
+        Food food = foodService.getFoodById(id);
         return ResponseEntity.ok(food);
     }
 

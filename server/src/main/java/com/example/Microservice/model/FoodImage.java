@@ -4,6 +4,7 @@ import jakarta.persistence.*;
 import lombok.*;
 import lombok.experimental.FieldDefaults;
 
+import java.sql.Blob;
 import java.util.UUID;
 
 @Entity
@@ -19,9 +20,16 @@ public class FoodImage {
     @GeneratedValue(strategy = GenerationType.AUTO)
     UUID imageId;
 
-    String imageUrl;
 
-    String description;
+    String imageName;
+
+    String imageType;
+
+    @Lob
+    Blob image;
+
+    String downloadUrl;
+
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "foodId")
